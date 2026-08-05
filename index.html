@@ -64,88 +64,145 @@ img { max-width: 100%; display: block; }
 /* ===================== 히어로 ===================== */
 .hero {
   position: relative;
-  background: #fff;
-  padding: 30px 26px 0;
+  background: linear-gradient(180deg, #fff 44%, #f6fafe 72%, var(--sky-1));
+  padding: 20px 24px 0;
   overflow: hidden;
 }
+
+/* 마스트헤드 — 로고 + 시도당 표기 */
 .hero-top {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--line);
 }
-.hero-top img { height: 30px; }
+.hero-top img { height: 26px; }
 .hero-top .office {
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: .14em;
-  color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--navy);
 }
+.hero-top .office::before {
+  content: '';
+  width: 3px;
+  height: 14px;
+  border-radius: 1px;
+  background: var(--yellow);
+}
+
 .hero-num {
   /* 기호 1 — 페이지의 그래픽 모티프 */
   position: absolute;
-  right: -34px;
-  top: 54px;
+  right: -30px;
+  top: 24px;
   font-family: var(--disp);
   font-weight: 900;
-  font-size: 380px;
+  font-size: 300px;
   line-height: 1;
   color: var(--blue);
-  opacity: .06;
+  opacity: .05;
   pointer-events: none;
   user-select: none;
 }
-.hero-copy { position: relative; margin-top: 40px; }
-.hero-badge {
-  display: inline-flex;
+
+/* 기호 배지 + 직함을 한 줄로 묶어 헤드라인 위에 고정 */
+.hero-meta {
+  position: relative;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  margin-top: 18px;
+}
+.hero-badge {
+  flex: none;
   background: var(--yellow);
   color: var(--navy);
   font-weight: 800;
-  font-size: 15px;
-  padding: 7px 18px;
+  font-size: 13.5px;
+  letter-spacing: -.01em;
+  padding: 6px 14px;
   border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(0, 46, 110, .18);
+  box-shadow: 0 3px 10px rgba(0, 46, 110, .16);
 }
+.hero-meta .role {
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -.01em;
+  color: var(--ink-sub);
+}
+
+.hero-copy { position: relative; margin-top: 15px; }
 .hero h1 {
   font-family: var(--disp);
   font-weight: 900;
-  font-size: clamp(34px, 9.5vw, 44px);
-  line-height: 1.24;
+  font-size: clamp(32px, 9.4vw, 42px);
+  line-height: 1.18;
+  letter-spacing: -.025em;
   color: var(--navy);
-  margin-top: 18px;
-  text-wrap: balance;
 }
 .hero h1 .y { color: var(--blue-mid); }
 .hero h1 .thin {
   display: block;
-  font-size: .62em;
+  font-size: .43em;
   font-weight: 600;
+  letter-spacing: -.01em;
   color: var(--ink-sub);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
+
 .hero-figure {
   position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-top: 8px;
+  gap: 6px;
+  margin-top: 12px;
 }
-.hero-name { padding-bottom: 34px; position: relative; z-index: 2; }
-.hero-name .district { font-size: 13.5px; font-weight: 600; color: var(--ink-sub); }
+.hero-name {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-bottom: 24px;
+}
+.hero-name::before {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 3px;
+  background: var(--yellow);
+  margin-bottom: 11px;
+}
+.hero-name .district {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -.01em;
+  color: var(--ink-sub);
+}
 .hero-name .name {
   font-family: var(--disp);
   font-weight: 900;
-  font-size: 46px;
-  line-height: 1.15;
+  font-size: clamp(44px, 12.4vw, 53px);
+  line-height: 1.08;
+  letter-spacing: .05em;
   color: var(--navy);
-  letter-spacing: .04em;
+  margin-top: 4px;
 }
 .hero-photo {
-  width: 58%;
-  max-width: 270px;
-  margin-right: -12px;
-  filter: drop-shadow(0 12px 26px rgba(0, 46, 110, .16));
+  flex: none;
+  width: 60%;
+  max-width: 292px;
+  margin-right: -18px;
+  margin-bottom: -2px;
+  filter: drop-shadow(0 16px 30px rgba(0, 46, 110, .17));
 }
 
 /* ===================== 투표 안내 (액션 밴드) ===================== */
@@ -194,6 +251,82 @@ img { max-width: 100%; display: block; }
   font-variant-numeric: tabular-nums;
 }
 .vote-row .where { font-size: 13.5px; color: #b9cdea; margin-top: 2px; }
+
+/* ===================== 현장 인용 밴드 ===================== */
+.fieldband {
+  background: #001b45;
+  color: #fff;
+}
+.fieldband-img { position: relative; line-height: 0; }
+.fieldband-img img { width: 100%; }
+.fieldband-img::after {
+  /* 사진 하단을 남색으로 흘려보내 카피와 이어붙임 — 인물 얼굴선 위로는 건드리지 않음 */
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 28%;
+  background: linear-gradient(180deg, rgba(0,27,69,0), rgba(0,27,69,.18) 45%, #001b45);
+}
+.fieldband-in { padding: 6px 26px 30px; }
+.fieldband-in .q {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: clamp(16px, 4.4vw, 19px);
+  line-height: 1.65;
+  text-wrap: balance;
+}
+.fieldband-in .q .em { color: var(--yellow); }
+.fieldband-in .cap {
+  font-size: 12.5px;
+  color: #8fabd4;
+  margin-top: 12px;
+}
+
+/* ===================== 현장에서 ===================== */
+.field { background: var(--paper); }
+.field-photos {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.field-photo img { width: 100%; border-radius: 4px; }
+.field-photo figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 9px;
+  margin-top: 10px;
+}
+.field-photo .loc {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--navy);
+  padding-left: 10px;
+  position: relative;
+}
+.field-photo .loc::before {
+  content: '';
+  position: absolute;
+  left: 0; top: .38em;
+  width: 3px; height: .82em;
+  background: var(--yellow);
+}
+.field-photo .desc { font-size: 13px; color: var(--ink-sub); }
+.field-note {
+  margin-top: 30px;
+  background: var(--sky-1);
+  border-left: 4px solid var(--blue);
+  border-radius: 4px;
+  padding: 20px 22px;
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.72;
+  color: var(--navy);
+  text-wrap: balance;
+}
 
 /* ===================== 섹션 공통 ===================== */
 section { padding: 44px 26px; }
@@ -538,13 +671,16 @@ footer img { height: 22px; margin: 0 auto 12px; filter: brightness(0) invert(.75
       <span class="office">강원특별자치도당</span>
     </div>
     <div class="hero-num" aria-hidden="true">1</div>
-    <div class="hero-copy">
+    <div class="hero-meta">
       <span class="hero-badge">기호 1번</span>
+      <span class="role">더불어민주당<br>강원특별자치도당위원장 후보</span>
+    </div>
+    <div class="hero-copy">
       <h1><span class="thin">허영이 약속하는</span><span class="y">승리하는</span> 강원도당</h1>
     </div>
     <div class="hero-figure">
       <div class="hero-name">
-        <div class="district">더불어민주당 강원특별자치도당위원장 후보<br>춘천·철원·화천·양구 갑 국회의원</div>
+        <div class="district">춘천·철원·화천·양구 갑<br>국회의원</div>
         <div class="name">허 영</div>
       </div>
       <img class="hero-photo" src="images/candidate_cut.png" alt="허영 후보">
@@ -571,6 +707,17 @@ footer img { height: 22px; margin: 0 auto 12px; filter: brightness(0) invert(.75
       </div>
     </div>
   </div>
+
+  <!-- 현장 인용 밴드 -->
+  <figure class="fieldband">
+    <div class="fieldband-img">
+      <img src="images/field-band.jpg" alt="동해·태백·삼척·정선 권역 당원 간담회에서 허영 후보와 당원들이 함께 파이팅을 외치는 모습">
+    </div>
+    <figcaption class="fieldband-in">
+      <p class="q">푹푹 찌는 <span class="em">폭염</span> 속에서도 먼 길 마다하지 않고 함께해 주신 당원 한 분 한 분께 진심으로 감사드립니다.</p>
+      <p class="cap">2026. 8. 4. 동해·태백·삼척·정선 권역 당원 간담회</p>
+    </figcaption>
+  </figure>
 
   <!-- 웹자보 -->
   <section class="poster" aria-label="5대 공약 웹자보">
@@ -645,6 +792,30 @@ footer img { height: 22px; margin: 0 auto 12px; filter: brightness(0) invert(.75
         </div>
       </article>
     </div>
+  </section>
+
+  <!-- 현장에서 -->
+  <section class="field">
+    <div class="reveal">
+      <div class="eyebrow">ON THE GROUND</div>
+    </div>
+
+    <div class="field-photos">
+      <figure class="field-photo reveal">
+        <img src="images/field-hoengseong.jpg" alt="횡성에서 지역 현안을 논의하는 허영 후보" loading="lazy">
+        <figcaption><span class="loc">횡성</span><span class="desc">지역 현안 논의</span></figcaption>
+      </figure>
+      <figure class="field-photo reveal">
+        <img src="images/field-gangneung.jpg" alt="강릉 당원 간담회에서 인사말을 전하는 허영 후보" loading="lazy">
+        <figcaption><span class="loc">강릉</span><span class="desc">당원 간담회</span></figcaption>
+      </figure>
+      <figure class="field-photo reveal">
+        <img src="images/field-hhyp.jpg" alt="홍천·횡성·영월·평창 권역 당원들과 함께한 허영 후보" loading="lazy">
+        <figcaption><span class="loc">홍천·횡성·영월·평창</span><span class="desc">권역 당원과 함께</span></figcaption>
+      </figure>
+    </div>
+
+    <p class="field-note reveal">당원 동지 여러분께서 전해주신 의견과 제안,<br>하나도 가볍게 듣지 않겠습니다.</p>
   </section>
 
   <!-- 승리의 로드맵 -->

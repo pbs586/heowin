@@ -257,17 +257,91 @@ img { max-width: 100%; display: block; }
   background: #001b45;
   color: #fff;
 }
-.fieldband-img { position: relative; line-height: 0; }
-.fieldband-img img { width: 100%; }
-.fieldband-img::after {
+
+/* 슬라이드 무대 */
+.fb-stage { position: relative; }
+.fb-stage::after {
   /* 사진 하단을 남색으로 흘려보내 카피와 이어붙임 — 인물 얼굴선 위로는 건드리지 않음 */
   content: '';
   position: absolute;
   left: 0; right: 0; bottom: -1px;
-  height: 28%;
-  background: linear-gradient(180deg, rgba(0,27,69,0), rgba(0,27,69,.18) 45%, #001b45);
+  height: 22%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,27,69,0), rgba(0,27,69,.2) 45%, #001b45);
 }
-.fieldband-in { padding: 6px 26px 30px; }
+.fb-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+.fb-track::-webkit-scrollbar { display: none; }
+.fb-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  line-height: 0;
+}
+.fb-slide img {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  object-fit: cover;
+  object-position: center;
+}
+.fb-slide.pos-upper img { object-position: center 42%; }
+
+/* 좌우 버튼 */
+.fb-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 50%;
+  background: rgba(0, 27, 69, .46);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease;
+}
+.fb-nav:hover { background: rgba(0, 27, 69, .82); border-color: rgba(255,255,255,.5); }
+.fb-nav:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.fb-nav svg { width: 16px; height: 16px; }
+.fb-nav.prev { left: 12px; }
+.fb-nav.next { right: 12px; }
+
+/* 인디케이터 */
+.fb-dots {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  padding: 14px 0 0;
+}
+.fb-dots button {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255,255,255,.3);
+  cursor: pointer;
+  transition: background .25s ease, width .25s ease;
+}
+.fb-dots button[aria-current="true"] { width: 20px; background: var(--yellow); }
+.fb-dots button:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+
+.fieldband-in { padding: 14px 26px 30px; }
 .fieldband-in .q {
   font-family: var(--disp);
   font-weight: 700;
@@ -709,13 +783,33 @@ footer img { height: 22px; margin: 0 auto 12px; filter: brightness(0) invert(.75
   </div>
 
   <!-- 현장 인용 밴드 -->
-  <figure class="fieldband">
-    <div class="fieldband-img">
-      <img src="images/field-band.jpg" alt="동해·태백·삼척·정선 권역 당원 간담회에서 허영 후보와 당원들이 함께 파이팅을 외치는 모습">
+  <figure class="fieldband" aria-roledescription="캐러셀" aria-label="현장 사진">
+    <div class="fb-stage">
+      <div class="fb-track" id="fbTrack">
+        <div class="fb-slide" data-cap="2026. 8. 4. 동해·태백·삼척·정선 권역 당원 간담회">
+          <img src="images/field-band.jpg" alt="동해·태백·삼척·정선 권역 당원 간담회에서 허영 후보와 당원들이 함께 파이팅을 외치는 모습">
+        </div>
+        <div class="fb-slide" data-cap="2026. 8. 4. 횡성 · 지역 현안 논의">
+          <img src="images/field-hoengseong.jpg" alt="횡성에서 지역 현안을 논의하는 허영 후보" loading="lazy">
+        </div>
+        <div class="fb-slide pos-upper" data-cap="2026. 8. 4. 강릉 당원 간담회">
+          <img src="images/field-gangneung.jpg" alt="강릉 당원 간담회에서 인사말을 전하는 허영 후보" loading="lazy">
+        </div>
+        <div class="fb-slide" data-cap="2026. 8. 4. 홍천·횡성·영월·평창 권역 당원과 함께">
+          <img src="images/field-hhyp.jpg" alt="홍천·횡성·영월·평창 권역 당원들과 함께한 허영 후보" loading="lazy">
+        </div>
+      </div>
+      <button class="fb-nav prev" id="fbPrev" type="button" aria-label="이전 사진">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+      </button>
+      <button class="fb-nav next" id="fbNext" type="button" aria-label="다음 사진">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+      </button>
     </div>
+    <div class="fb-dots" id="fbDots" role="tablist" aria-label="사진 선택"></div>
     <figcaption class="fieldband-in">
       <p class="q">푹푹 찌는 <span class="em">폭염</span> 속에서도 먼 길 마다하지 않고 함께해 주신 당원 한 분 한 분께 진심으로 감사드립니다.</p>
-      <p class="cap">2026. 8. 4. 동해·태백·삼척·정선 권역 당원 간담회</p>
+      <p class="cap" id="fbCap">2026. 8. 4. 동해·태백·삼척·정선 권역 당원 간담회</p>
     </figcaption>
   </figure>
 
@@ -953,6 +1047,52 @@ footer img { height: 22px; margin: 0 auto 12px; filter: brightness(0) invert(.75
   }
   statusEl.innerHTML = main;
   stickyMsg.innerHTML = sticky;
+})();
+
+// ---- 현장 사진 캐러셀 ----
+(function () {
+  var track = document.getElementById('fbTrack');
+  if (!track) return;
+  var slides = [].slice.call(track.querySelectorAll('.fb-slide'));
+  var dotsWrap = document.getElementById('fbDots');
+  var capEl = document.getElementById('fbCap');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var idx = 0;
+
+  var dots = slides.map(function (s, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', (i + 1) + '번째 사진');
+    b.addEventListener('click', function () { go(i); });
+    dotsWrap.appendChild(b);
+    return b;
+  });
+
+  function render() {
+    dots.forEach(function (d, i) { d.setAttribute('aria-current', i === idx ? 'true' : 'false'); });
+    capEl.textContent = slides[idx].dataset.cap;
+  }
+
+  function go(i) {
+    idx = (i + slides.length) % slides.length;   // 끝에서 처음으로 순환
+    track.scrollTo({ left: track.clientWidth * idx, behavior: reduce ? 'auto' : 'smooth' });
+    render();
+  }
+
+  document.getElementById('fbPrev').addEventListener('click', function () { go(idx - 1); });
+  document.getElementById('fbNext').addEventListener('click', function () { go(idx + 1); });
+
+  // 스와이프로 넘긴 경우 인덱스 동기화
+  var timer;
+  track.addEventListener('scroll', function () {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      var i = Math.round(track.scrollLeft / track.clientWidth);
+      if (i !== idx && slides[i]) { idx = i; render(); }
+    }, 90);
+  }, { passive: true });
+
+  render();
 })();
 
 // ---- 스크롤 리빌 ----
